@@ -1,0 +1,29 @@
+{
+  "name": "@yeliex/docker",
+  "version": "0.0.1",
+  "description": "a docker client implement with node.js",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeliex/docker-js.git"
+  },
+  "keywords": [
+    "docker"
+  ],
+  "author": "yeliex <yeliex@yeliex.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yeliex/docker-js/issues"
+  },
+  "homepage": "https://github.com/yeliex/docker-js#readme",
+  "devDependencies": {
+    "@types/node": "^12.11.7",
+    "typescript": "^3.6.4"
+  }
+}

@@ -1,0 +1,9 @@
+.idea/
+.vscode/
+node_modules
+*.log
+package_lock.json
+dist/
+*.js
+!index.js
+.DS_Store
