@@ -1,8 +1,11 @@
-import {IDockerOptions} from './base.ts';
+import { TDockerOptions } from './index';
 
 export default abstract class DockerBase {
-    constructor(options: IDockerOptions) {
+    constructor(private readonly options: TDockerOptions) {
 
     }
 
+    public async request() {
+        console.log(this.options);
+    }
 }

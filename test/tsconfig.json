@@ -1,0 +1,18 @@
+{
+    "extends": "../tsconfig",
+    "compileOnSave": false,
+    "compilerOptions": {
+        "noEmit": true,
+        "rootDir": "../",
+        "typeRoots": [
+            "typing",
+            "node_modules"
+        ]
+    },
+    "include": [
+        "../"
+    ],
+    "exclude": [
+        "../node_modules"
+    ]
+}
