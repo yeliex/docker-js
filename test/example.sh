@@ -1,1 +1,1 @@
-curl --unix-socket /var/run/docker.sock http://localhost/info
+curl --unix-socket /var/run/docker.sock http://localhost/containers/json

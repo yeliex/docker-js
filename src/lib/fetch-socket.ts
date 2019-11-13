@@ -1,10 +1,11 @@
-import { RequestInit, FetchError, Response, Headers } from 'node-fetch';
+import * as Fetch from 'node-fetch';
 import { ClientRequest, request } from 'http';
 import { PassThrough } from 'stream';
 
-export interface RequestSocketInit extends RequestInit {
-    socketPath: string;
-    headers: any;
+export interface RequestInit extends Fetch.RequestInit {
+    socketPath?: string;
+    headers?: any;
+    body?: any;
 }
 
 function isBlob(obj: any) {
@@ -15,7 +16,7 @@ const invalidTokenRegex = /[^\^_`a-zA-Z\-0-9!#$%&'*+.|~]/;
 const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/;
 
 function createHeadersLenient(obj: any) {
-    const headers = new Headers();
+    const headers = new Fetch.Headers();
     for (const name of Object.keys(obj)) {
         if (invalidTokenRegex.test(name)) {
             continue;
@@ -48,14 +49,18 @@ function writeToStream(dest: ClientRequest, body?: any) {
         // body is buffer
         dest.write(body);
         dest.end();
+    } else if (typeof body === 'object') {
+        // body is object
+        dest.write(JSON.stringify(body));
+        dest.end();
     } else {
         // body is stream
         body.pipe(dest);
     }
 }
 
-export default async function fetchSocket(input: string, init: RequestSocketInit) {
-    const { body, socketPath, ...requestInit } = init;
+export default async function fetch(input: string, init: RequestInit): Promise<Fetch.Response> {
+    const {body, socketPath, ...requestInit} = init;
 
     return new Promise((rec, rej) => {
         const req = request({
@@ -65,7 +70,7 @@ export default async function fetchSocket(input: string, init: RequestSocketInit
         } as any);
 
         req.once('error', (err: Error) => {
-            rej(new FetchError(`request to ${input} failed, reason: ${err.message}`, 'system', err.toString()));
+            rej(new Fetch.FetchError(`request to ${input} failed, reason: ${err.message}`, 'system', err.toString()));
         });
 
         req.once('response', (res) => {
@@ -81,7 +86,7 @@ export default async function fetchSocket(input: string, init: RequestSocketInit
                 counter: 0,
             };
 
-            const response = new Response(body, responseOptions);
+            const response = new Fetch.Response(body, responseOptions);
 
             rec(response);
         });
